@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -27,6 +28,7 @@ import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteCard(
     header: String,
@@ -38,6 +40,7 @@ fun NoteCard(
     OutlinedCard( colors = CardDefaults
         .cardColors(containerColor = MaterialTheme.colorScheme.surface),
         border = BorderStroke(0.5.dp, Color.Gray),
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
