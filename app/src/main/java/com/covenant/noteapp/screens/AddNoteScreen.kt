@@ -1,5 +1,6 @@
 package com.covenant.noteapp.screens
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -29,31 +30,46 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.covenant.noteapp.data.Notes
 import com.covenant.noteapp.ui.theme.NoteAppTheme
 import com.covenant.noteapp.viewModel.NoteViewModel
+import java.time.LocalDate
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddNoteScreen() {
-
-
+fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
     var header by remember { mutableStateOf(TextFieldValue("")) }
     var body by remember { mutableStateOf(TextFieldValue("")) }
 
-    Column(modifier = Modifier
-        .fillMaxHeight()
-        .fillMaxWidth()) {
-
-        TopAppBar(title = { Text(text = "") },
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+    ) {
+        TopAppBar(
+            title = { Text(text = "") },
             navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back arrow")
+                        contentDescription = "Back arrow"
+                    )
                 }
             },
             actions = {
-                IconButton(onClick = { /* do something */ }) {
+                IconButton(onClick = {
+                    viewModel.addNote(
+                        Notes(
+                            id = UUID.randomUUID().toString(),
+                            header = header.text,
+                            body = body.text,
+                            dateCreated = LocalDate.now()
+                        )
+                    )
+                    navController.navigateUp()
+                }) {
                     Icon(
                         imageVector = Icons.Filled.Check,
                         contentDescription = "Save Note"
@@ -61,14 +77,16 @@ fun AddNoteScreen() {
                 }
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = Color.Transparent,
-            ))
+                containerColor = Color.Transparent
+            )
+        )
 
-        TextField(value = header,
-            onValueChange = {newHeader ->
-            header = newHeader
+        TextField(
+            value = header,
+            onValueChange = { newHeader ->
+                header = newHeader
             },
-            label = { Text(text = "Title")},
+            label = { Text(text = "Title") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(6.dp)
@@ -76,14 +94,16 @@ fun AddNoteScreen() {
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
             )
         )
-        TextField(value = body,
-            onValueChange = {newHeader ->
+
+        TextField(
+            value = body,
+            onValueChange = { newHeader ->
                 body = newHeader
             },
-            label = { Text(text = "Body")},
+            label = { Text(text = "Body") },
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
@@ -92,17 +112,8 @@ fun AddNoteScreen() {
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
             )
         )
-    }
-}
-
-
-@Preview
-@Composable
-fun AddNoteScreenPrev() {
-    NoteAppTheme {
-        AddNoteScreen()
     }
 }

@@ -11,6 +11,9 @@ class NoteViewModel: ViewModel() {
     //Make a list like this as a shared pref
     private var _notes = mutableListOf<Notes>()
 
+    fun getNotes(): List<Notes>{
+        return _notes
+    }
     fun addNote(note: Notes){
         _notes.add(note)
     }
