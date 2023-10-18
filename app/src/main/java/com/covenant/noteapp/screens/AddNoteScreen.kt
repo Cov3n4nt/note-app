@@ -36,6 +36,7 @@ import com.covenant.noteapp.viewModel.NoteViewModel
 @Composable
 fun AddNoteScreen() {
 
+
     var header by remember { mutableStateOf(TextFieldValue("")) }
     var body by remember { mutableStateOf(TextFieldValue("")) }
 
@@ -77,7 +78,6 @@ fun AddNoteScreen() {
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
             )
-
         )
         TextField(value = body,
             onValueChange = {newHeader ->
@@ -94,7 +94,6 @@ fun AddNoteScreen() {
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
             )
-
         )
     }
 }
