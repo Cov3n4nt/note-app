@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,12 +53,14 @@ fun NoteCard(
             Text(text = header,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
+                fontFamily = FontFamily.Monospace,
                 textAlign = TextAlign.Start,
                 modifier = Modifier.padding(10.dp)
             )
             Text(text = date.toString(),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Normal,
+                fontFamily = FontFamily.Monospace,
                 textAlign = TextAlign.Right,
                 modifier = Modifier.padding(10.dp)
             )
@@ -67,6 +70,7 @@ fun NoteCard(
             maxLines = 3,
             fontSize = 15.sp,
             fontWeight = FontWeight.Normal,
+            fontFamily = FontFamily.Monospace,
             textAlign = TextAlign.Start,
             modifier = Modifier.padding(10.dp)
             )
