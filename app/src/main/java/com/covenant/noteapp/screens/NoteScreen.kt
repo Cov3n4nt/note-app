@@ -1,5 +1,6 @@
 package com.covenant.noteapp.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,6 +18,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,13 +37,14 @@ fun NoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
             TopAppBar(
                 modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                 colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
+                    titleContentColor = MaterialTheme.colorScheme.surface,
                 ),
                 title = {
                     Text(
-                        "Notes",
-                        fontWeight = FontWeight.SemiBold
+                        "Scrawlo",
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily.Serif
                     )
                 },
                 scrollBehavior = scrollBehavior
@@ -52,7 +55,9 @@ fun NoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
                 onClick = {
                     navController.navigate("addNoteScreen")
                 },
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
+                containerColor = MaterialTheme.colorScheme.inverseSurface
+
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add Note")
             }
