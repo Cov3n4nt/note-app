@@ -1,13 +1,12 @@
 package com.covenant.noteapp.screens
 
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Redo
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,10 +27,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.TransparentTextField
 import com.covenant.noteapp.viewModel.NoteViewModel
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, noteId: String) {
-    val note = viewModel.getNotes().find { it.id == noteId }
+fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewModel, noteId: String) {
+    
+    val note = viewModel.getDeletedNotes().find { it.id == noteId }
     note?.let {
         var header by remember { mutableStateOf(TextFieldValue(note.header)) }
         var body by remember { mutableStateOf(TextFieldValue(note.body)) }
@@ -55,7 +56,7 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                 },
                 actions = {
                     IconButton(onClick = {
-                        viewModel.deleteNote(it)
+                        viewModel.removeNote(it)
                         navController.popBackStack()
                     }) {
                         Icon(
@@ -64,18 +65,18 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                         )
                     }
                     IconButton(onClick = {
-                        viewModel.updateNote(
-                            it,
-                            header.text,
-                            body.text,
-                            it.dateCreated,
-                            isDeleted = false
-                        )
+                       viewModel.updateNote(
+                           it,
+                           header.text,
+                           body.text,
+                           it.dateCreated,
+                           false
+                       )
                         navController.popBackStack()
                     }) {
                         Icon(
-                            imageVector = Icons.Filled.Check,
-                            contentDescription = "Save Note"
+                            imageVector = Icons.Filled.Redo,
+                            contentDescription = "Restore Note"
                         )
                     }
                 },
@@ -94,7 +95,7 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                 labelFont = FontFamily.Monospace,
             )
             TransparentTextField(
-                label = "Title",
+                label = "Note",
                 textValue = body.text,
                 onValueChange = { newHeader ->
                     body = newHeader},

@@ -1,10 +1,10 @@
 package com.covenant.noteapp.viewModel
 
-import android.provider.ContactsContract.CommonDataKinds.Note
+
 import androidx.lifecycle.ViewModel
 import com.covenant.noteapp.data.Notes
 import java.time.LocalDate
-import java.time.LocalDateTime
+
 
 class NoteViewModel: ViewModel() {
 
@@ -12,8 +12,16 @@ class NoteViewModel: ViewModel() {
     private var _notes = mutableListOf<Notes>()
 
     fun getNotes(): List<Notes>{
-        return _notes
+        return _notes.filter { !it.isDeleted }
     }
+
+    fun getDeletedNotes(): List<Notes>{
+
+        val deletedNotes = _notes.filter { it.isDeleted }
+
+        return deletedNotes
+    }
+
     fun addNote(note: Notes){
         _notes.add(note)
     }
@@ -22,9 +30,22 @@ class NoteViewModel: ViewModel() {
         _notes.remove(note)
     }
 
-    fun updateNote(note: Notes, header: String, body: String, date: LocalDate){
+    fun deleteNote(note:Notes){
 
-        val index = _notes.indexOf(note);
+        val index = _notes.indexOf(note)
+
+        _notes[index] = _notes[index].let{
+            it.copy(
+                id = it.id,
+                isDeleted = true
+            )
+        }
+
+    }
+
+    fun updateNote(note: Notes, header: String, body: String, date: LocalDate, isDeleted: Boolean){
+
+        val index = _notes.indexOf(note)
 
         _notes[index] = _notes[index].let{
             it.copy(
@@ -32,6 +53,7 @@ class NoteViewModel: ViewModel() {
                 header = header,
                 body = body,
                 dateCreated = date,
+                isDeleted = isDeleted,
             )
         }
 
