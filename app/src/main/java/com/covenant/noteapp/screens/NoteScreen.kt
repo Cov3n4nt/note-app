@@ -28,16 +28,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.NoteCard
 import com.covenant.noteapp.components.Scrawlo
 import com.covenant.noteapp.components.SearchTextField
 
-import com.covenant.noteapp.viewModel.NoteViewModel
+import com.covenant.noteapp.data.NoteViewModel
+import com.covenant.noteapp.data.NoteViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
+fun NoteScreen(
+    //factory: NoteViewModelFactory,
+    navController: NavHostController, viewModel: NoteViewModel) {
+
 
     var search by remember { mutableStateOf(TextFieldValue("")) }
 
@@ -80,7 +85,8 @@ fun NoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
         },
         floatingActionButtonPosition = FabPosition.End,
     )
-    { innerPadding ->
+    {
+            innerPadding ->
 
         if(viewModel.getNotes().isEmpty()){
             LazyColumn(

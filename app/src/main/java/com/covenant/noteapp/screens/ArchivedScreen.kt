@@ -30,7 +30,7 @@ import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.NoteCard
 import com.covenant.noteapp.components.Scrawlo
 import com.covenant.noteapp.components.SearchTextField
-import com.covenant.noteapp.viewModel.NoteViewModel
+import com.covenant.noteapp.data.NoteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

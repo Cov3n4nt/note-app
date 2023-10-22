@@ -26,12 +26,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.TransparentTextField
-import com.covenant.noteapp.viewModel.NoteViewModel
+import com.covenant.noteapp.data.NoteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewModel, noteId: String) {
-    
+
     val note = viewModel.getDeletedNotes().find { it.id == noteId }
     note?.let {
         var header by remember { mutableStateOf(TextFieldValue(note.header)) }

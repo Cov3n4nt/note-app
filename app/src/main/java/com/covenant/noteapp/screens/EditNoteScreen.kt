@@ -27,7 +27,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.TransparentTextField
-import com.covenant.noteapp.viewModel.NoteViewModel
+import com.covenant.noteapp.data.NoteViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, noteId: String) {

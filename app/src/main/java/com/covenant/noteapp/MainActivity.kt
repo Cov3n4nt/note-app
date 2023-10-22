@@ -8,17 +8,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.covenant.noteapp.screens.AddNoteScreen
-import com.covenant.noteapp.screens.NoteScreen
+import com.covenant.noteapp.data.NoteDatabase
+import com.covenant.noteapp.data.NoteRepository
 import com.covenant.noteapp.ui.theme.NoteAppTheme
-import com.covenant.noteapp.viewModel.NoteViewModel
+import com.covenant.noteapp.data.NoteViewModel
+import com.covenant.noteapp.data.NoteViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
-            val viewModel = viewModel<NoteViewModel>()
+            val dao = NoteDatabase.getDatabase(application).noteDao()
+            val repository = NoteRepository(dao)
+            val factory = NoteViewModelFactory(dao)
+            val viewModel: NoteViewModel = viewModel(factory = factory)
             NoteAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
