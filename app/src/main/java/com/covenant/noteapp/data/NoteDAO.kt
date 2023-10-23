@@ -29,4 +29,7 @@ interface NoteDAO {
 
     @Query("SELECT * FROM note_table WHERE is_deleted = 0 ORDER BY id ASC")
     fun getNotes(): Flow<List<NoteTable>>
+
+    @Query("SELECT * FROM note_table WHERE is_deleted = 0 AND (header LIKE '%' ||:search|| '%' OR body LIKE '%' ||:search|| '%')")
+    fun searchNotes(search: String): Flow<List<NoteTable>>
 }

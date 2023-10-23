@@ -43,12 +43,11 @@ fun NoteScreen(
     navController: NavHostController, viewModel: NoteViewModel
 ) {
 
-    val notes = viewModel.notes.collectAsState(initial = emptyList())
-    var search by remember { mutableStateOf(TextFieldValue("")) }
 
+    var search by remember { mutableStateOf(TextFieldValue("")) }
+    val notes = viewModel.searchNotes(search.text).collectAsState(initial = emptyList())
     Scaffold(
         topBar = {
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround,
