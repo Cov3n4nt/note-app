@@ -30,7 +30,7 @@ fun NoteCard(
     body: String,
     date: LocalDate,
     onClick: () -> Unit,
-    id: String,
+    id: Int,
     modifier: Modifier = Modifier,
 ) {
     OutlinedCard( colors = CardDefaults
@@ -76,7 +76,7 @@ fun NoteCard(
 fun NoteCardPrev() {
     NoteAppTheme {
         NoteCard(header = "Header", body = "Body", onClick = { /*TODO*/ }, date = LocalDate.now(),
-            id = "aaaa"
+            id = 1
         )
     }
 }

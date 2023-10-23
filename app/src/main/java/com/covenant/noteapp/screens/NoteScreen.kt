@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,22 +29,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.NoteCard
 import com.covenant.noteapp.components.Scrawlo
 import com.covenant.noteapp.components.SearchTextField
 
-import com.covenant.noteapp.data.NoteViewModel
-import com.covenant.noteapp.data.NoteViewModelFactory
+import com.covenant.noteapp.viewmodel.NoteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(
     //factory: NoteViewModelFactory,
-    navController: NavHostController, viewModel: NoteViewModel) {
+    navController: NavHostController, viewModel: NoteViewModel
+) {
 
-
+    val notes = viewModel.notes.collectAsState(initial = emptyList())
     var search by remember { mutableStateOf(TextFieldValue("")) }
 
     Scaffold(
@@ -88,16 +88,18 @@ fun NoteScreen(
     {
             innerPadding ->
 
-        if(viewModel.getNotes().isEmpty()){
+        if(notes.value.isEmpty()){
             LazyColumn(
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier
+                    .padding(innerPadding)
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 content = {
                     item {
                         Scrawlo(
                             text = "Scrawlo couldn't find any notes here",
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier
+                                .padding(8.dp)
                                 .fillMaxSize(),
                         )
                     }
@@ -106,14 +108,15 @@ fun NoteScreen(
         }
         else{
             LazyColumn(
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier
+                    .padding(innerPadding)
                     .fillMaxSize(),
                 content = {
-                    items(viewModel.getNotes()) { item ->
+                    items(notes.value) { item ->
                         NoteCard(
                             header = item.header,
                             body = item.body,
-                            date = item.dateCreated,
+                            date = item.dateCreated.toLocalDate(),
                             id = item.id,
                             modifier = Modifier.padding(4.dp),
                             onClick = { navController.navigate("editNoteScreen/${item.id}") }

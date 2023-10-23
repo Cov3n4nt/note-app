@@ -7,15 +7,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.covenant.noteapp.data.NoteDatabase
-import com.covenant.noteapp.data.NoteRepository
 import com.covenant.noteapp.screens.AddNoteScreen
 import com.covenant.noteapp.screens.ArchivedScreen
 import com.covenant.noteapp.screens.EditArchivedScreen
 import com.covenant.noteapp.screens.EditNoteScreen
 import com.covenant.noteapp.screens.NoteScreen
-import com.covenant.noteapp.data.NoteViewModel
-import com.covenant.noteapp.data.NoteViewModelFactory
+import com.covenant.noteapp.viewmodel.NoteViewModel
 
 @Composable
 fun AppNavigation(viewModel: NoteViewModel) {
@@ -32,18 +29,18 @@ fun AppNavigation(viewModel: NoteViewModel) {
             ArchivedScreen(navController, viewModel)
         }
         composable( route = "editArchivedScreen/{noteId}",
-            arguments = listOf(navArgument("noteId") { type = NavType.StringType })
+            arguments = listOf(navArgument("noteId") { type = NavType.IntType })
         ) { backStackEntry ->
             val arguments = requireNotNull(backStackEntry.arguments)
-            val noteId = arguments.getString("noteId")
+            val noteId = arguments.getInt("noteId")
             EditArchivedScreen(navController, viewModel, noteId!!)
         }
         composable(
             route = "editNoteScreen/{noteId}",
-            arguments = listOf(navArgument("noteId") { type = NavType.StringType })
+            arguments = listOf(navArgument("noteId") { type = NavType.IntType })
         ) { backStackEntry ->
             val arguments = requireNotNull(backStackEntry.arguments)
-            val noteId = arguments.getString("noteId")
+            val noteId = arguments.getInt("noteId")
             EditNoteScreen(navController, viewModel, noteId!!)
         }
     }

@@ -1,8 +1,8 @@
-package com.covenant.noteapp.data
+package com.covenant.noteapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
+import com.covenant.noteapp.data.NoteDAO
 
 class NoteViewModelFactory(private val dao: NoteDAO) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")

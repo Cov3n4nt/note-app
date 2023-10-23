@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.TransparentTextField
 import com.covenant.noteapp.data.NoteTable
-import com.covenant.noteapp.data.NoteViewModel
+import com.covenant.noteapp.viewmodel.NoteViewModel
 import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +62,7 @@ fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
                             header = header.text,
                             body = body.text,
                             dateCreated = LocalDateTime.now(),
-                            isDeleted = 0
+                            isDeleted = false
                         )
                     )
                     Toast.makeText(context, "Note saved!", Toast.LENGTH_LONG).show()

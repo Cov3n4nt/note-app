@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,13 +27,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.TransparentTextField
-import com.covenant.noteapp.data.NoteViewModel
+import com.covenant.noteapp.data.NoteTable
+import com.covenant.noteapp.viewmodel.NoteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewModel, noteId: String) {
+fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewModel, noteId: Int) {
 
-    val note = viewModel.getDeletedNotes().find { it.id == noteId }
+    val archivedNotes = viewModel.archivedNotes.collectAsState(initial = emptyList())
+    val note = archivedNotes.value.find { it.id == noteId }
     note?.let {
         var header by remember { mutableStateOf(TextFieldValue(note.header)) }
         var body by remember { mutableStateOf(TextFieldValue(note.body)) }
@@ -56,7 +59,7 @@ fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewMode
                 },
                 actions = {
                     IconButton(onClick = {
-                        viewModel.removeNote(it)
+                        viewModel.deleteNote(it)
                         navController.popBackStack()
                     }) {
                         Icon(
@@ -66,11 +69,13 @@ fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewMode
                     }
                     IconButton(onClick = {
                        viewModel.updateNote(
-                           it,
-                           header.text,
-                           body.text,
-                           it.dateCreated,
-                           false
+                           NoteTable(
+                               it.id,
+                               header.text,
+                               body.text,
+                               it.dateCreated,
+                               false
+                           )
                        )
                         navController.popBackStack()
                     }) {

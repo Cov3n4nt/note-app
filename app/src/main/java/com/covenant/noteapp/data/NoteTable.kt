@@ -19,5 +19,5 @@ data class NoteTable(
     @ColumnInfo(name = "date_created")
     val dateCreated: LocalDateTime,
     @ColumnInfo(name = "is_deleted")
-    val isDeleted: Int,
+    val isDeleted: Boolean,
 )

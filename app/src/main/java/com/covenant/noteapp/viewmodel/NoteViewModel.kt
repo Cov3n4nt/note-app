@@ -1,14 +1,12 @@
-package com.covenant.noteapp.data
+package com.covenant.noteapp.viewmodel
 
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.covenant.noteapp.data.NoteDAO
+import com.covenant.noteapp.data.NoteTable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 
 
 class NoteViewModel(private val dao: NoteDAO) : ViewModel() {
@@ -20,9 +18,22 @@ class NoteViewModel(private val dao: NoteDAO) : ViewModel() {
 //        //readAllData = repository.readAllData
 //    }
 
+    val archivedNotes = dao.getArchivedNotes()
+    val notes = dao.getNotes()
     fun addNote(notes: NoteTable){
         viewModelScope.launch(Dispatchers.IO){
             dao.insertNote(notes)
+        }
+    }
+  fun deleteNote(notes: NoteTable){
+      viewModelScope.launch(Dispatchers.IO){
+          dao.deleteNote(notes)
+      }
+  }
+
+    fun updateNote(notes: NoteTable){
+        viewModelScope.launch(Dispatchers.IO){
+            dao.updateNote(notes)
         }
     }
 

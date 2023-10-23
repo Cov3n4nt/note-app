@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,12 +31,12 @@ import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.NoteCard
 import com.covenant.noteapp.components.Scrawlo
 import com.covenant.noteapp.components.SearchTextField
-import com.covenant.noteapp.data.NoteViewModel
+import com.covenant.noteapp.viewmodel.NoteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArchivedScreen(navController: NavHostController, viewModel: NoteViewModel) {
-
+    val archivedNotes = viewModel.archivedNotes.collectAsState(initial = emptyList())
     var searchArchive by remember { mutableStateOf(TextFieldValue("")) }
 
     Scaffold(
@@ -64,16 +65,18 @@ fun ArchivedScreen(navController: NavHostController, viewModel: NoteViewModel) {
         },
 
     ) { innerPadding ->
-        if(viewModel.getDeletedNotes().isEmpty()){
+        if(archivedNotes.value.isEmpty()){
             LazyColumn(
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier
+                    .padding(innerPadding)
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 content = {
                     item {
                         Scrawlo(
                             text = "Scrawlo couldn't find any notes here",
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier
+                                .padding(8.dp)
                                 .fillMaxSize(),
                         )
                     }
@@ -84,11 +87,11 @@ fun ArchivedScreen(navController: NavHostController, viewModel: NoteViewModel) {
             LazyColumn(
                 modifier = Modifier.padding(innerPadding), // Apply padding from innerPadding
                 content = {
-                    items(viewModel.getDeletedNotes()) { item ->
+                    items(archivedNotes.value) { item ->
                         NoteCard(
                             header = item.header,
                             body = item.body,
-                            date = item.dateCreated,
+                            date = item.dateCreated.toLocalDate(),
                             id = item.id,
                             modifier = Modifier.padding(4.dp),
                             onClick = { navController.navigate("editArchivedScreen/${item.id}") }

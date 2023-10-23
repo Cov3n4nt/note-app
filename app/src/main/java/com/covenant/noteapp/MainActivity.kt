@@ -11,8 +11,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.covenant.noteapp.data.NoteDatabase
 import com.covenant.noteapp.data.NoteRepository
 import com.covenant.noteapp.ui.theme.NoteAppTheme
-import com.covenant.noteapp.data.NoteViewModel
-import com.covenant.noteapp.data.NoteViewModelFactory
+import com.covenant.noteapp.viewmodel.NoteViewModel
+import com.covenant.noteapp.viewmodel.NoteViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
