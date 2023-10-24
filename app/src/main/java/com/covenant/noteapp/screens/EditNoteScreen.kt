@@ -141,7 +141,7 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                             labelFont = FontFamily.Monospace,
                         )
                         TransparentTextField(
-                            label = "Title",
+                            label = "Note",
                             textValue = body.text,
                             onValueChange = { newHeader ->
                                 body = newHeader},
