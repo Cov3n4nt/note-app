@@ -46,7 +46,7 @@ fun NoteScreen(
     navController: NavHostController,
     viewModel: NoteViewModel
 ){
-    val notes = viewModel.searchNotes(viewModel.search.text).collectAsState(initial = emptyList())
+    val notes by viewModel.searchNotes(viewModel.search.text).collectAsState(initial = emptyList())
     Scaffold(
         topBar = {
             Row(
@@ -90,7 +90,7 @@ fun NoteScreen(
                 .padding(it)
                 .fillMaxSize(),
         ){
-            if(notes.value.isEmpty()){
+            if(notes.isEmpty()){
                 Scrawlo(
                     text = "Scrawlo couldn't find any notes here",
                     modifier = Modifier
@@ -99,20 +99,8 @@ fun NoteScreen(
             }
             else{
                 Column {
-                    ListPinNotes(
-                        notes = notes.value.filter { it.isPinned },
-                        onClick = {noteId ->
-                            navController.navigate("editNoteScreen/$noteId")
-                        },
-                        label = "Pinned Notes",
-                        labelSize = 15.sp,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth()
-                    )
                     ListOtherNotes(
-                        notes = notes.value.filter { !it.isPinned },
-                        label = "Notes",
+                        notes = notes,
                         labelSize = 15.sp,
                         modifier = Modifier.padding(8.dp),
                         onClick = {noteId ->
