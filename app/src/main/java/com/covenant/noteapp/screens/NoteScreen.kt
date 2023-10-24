@@ -88,6 +88,7 @@ fun NoteScreen(
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize(),
+            verticalArrangement = Arrangement.Center
             ){
             item {
                 if(notes.value.isEmpty()){
