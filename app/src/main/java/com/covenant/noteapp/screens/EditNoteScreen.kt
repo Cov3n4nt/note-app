@@ -69,7 +69,7 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                                 body.text,
                                 it.dateCreated,
                                 true,
-                                it.isPinned,
+                                false,
                             )
                         )
                         navController.popBackStack()

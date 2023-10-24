@@ -1,11 +1,8 @@
 package com.covenant.noteapp.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pets
@@ -25,19 +22,12 @@ fun ListPinNotes(
     notes: List<NoteTable>,
     label: String,
     labelSize: TextUnit,
-    onClick: (Int)-> Unit,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if(notes.none { it.isPinned }){
-        Box(){
-
-        }
-    }
-    else{
-        Box(
-            modifier = modifier,
-        ) {
-            Column {
+    if (!notes.none { it.isPinned }) {
+        LazyColumn(modifier = modifier) {
+            item {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = label,
@@ -48,22 +38,19 @@ fun ListPinNotes(
                     )
                     Icon(
                         imageVector = Icons.Default.Pets,
-                        contentDescription = "Pin notes")
-                }
-                for(item in notes){
-                    NoteCard(
-                        header = item.header,
-                        body = item.body,
-                        date = item.dateCreated.toLocalDate(),
-                        id = item.id,
-                        onClick = {onClick(item.id)}
+                        contentDescription = "Pin notes"
                     )
                 }
-
-
+            }
+            items(notes) { item ->
+                NoteCard(
+                    header = item.header,
+                    body = item.body,
+                    date = item.dateCreated.toLocalDate(),
+                    id = item.id,
+                    onClick = { onClick(item.id) }
+                )
             }
         }
     }
-
-
 }

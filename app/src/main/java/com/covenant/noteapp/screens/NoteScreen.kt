@@ -1,6 +1,7 @@
 package com.covenant.noteapp.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -83,23 +84,21 @@ fun NoteScreen(
         },
         floatingActionButtonPosition = FabPosition.End,
     )
-    { 14.dp
-        LazyColumn(
+    {
+        Box(
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.Center
-            ){
-            item {
-                if(notes.value.isEmpty()){
-                    Scrawlo(
-                        text = "Scrawlo couldn't find any notes here",
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxSize(),
-                    )
-                }
-                else{
+        ){
+            if(notes.value.isEmpty()){
+                Scrawlo(
+                    text = "Scrawlo couldn't find any notes here",
+                    modifier = Modifier
+                        .align(Alignment.Center),
+                )
+            }
+            else{
+                Column {
                     ListPinNotes(
                         notes = notes.value.filter { it.isPinned },
                         onClick = {noteId ->

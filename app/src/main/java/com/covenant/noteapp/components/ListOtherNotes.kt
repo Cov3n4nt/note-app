@@ -32,21 +32,23 @@ fun ListOtherNotes(
         Box(
             modifier = modifier,
         ) {
-            Column {
-                Text(
-                    text = label,
-                    fontSize = labelSize,
-                    fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(8.dp),
-                )
-                for(item in notes){
+            LazyColumn {
+                item {
+                    Text(
+                        text = label,
+                        fontSize = labelSize,
+                        fontFamily = FontFamily.Monospace,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(8.dp),
+                    )
+                }
+                items(notes) { note ->
                     NoteCard(
-                        header = item.header,
-                        body = item.body,
-                        date = item.dateCreated.toLocalDate(),
-                        id = item.id,
-                        onClick = {onClick(item.id)}
+                        header = note.header,
+                        body = note.body,
+                        date = note.dateCreated.toLocalDate(),
+                        id = note.id,
+                        onClick = {onClick(note.id)}
                     )
                 }
             }
