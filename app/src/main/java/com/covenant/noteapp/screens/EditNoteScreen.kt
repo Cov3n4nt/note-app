@@ -36,6 +36,8 @@ import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.TransparentTextField
 import com.covenant.noteapp.data.NoteTable
 import com.covenant.noteapp.viewmodel.NoteViewModel
+import java.time.Instant
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, noteId: Int) {
@@ -107,7 +109,7 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                                 it.id,
                                 header.text,
                                 body.text,
-                                it.dateCreated,
+                                Instant.now(),
                                 isDeleted = false,
                                 it.isPinned,
                             )

@@ -3,6 +3,7 @@ package com.covenant.noteapp.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Date
@@ -17,7 +18,7 @@ data class NoteTable(
     @ColumnInfo(name = "body")
     val body: String,
     @ColumnInfo(name = "date_created")
-    val dateCreated: LocalDateTime,
+    val dateCreated: Instant,
     @ColumnInfo(name = "is_deleted")
     val isDeleted: Boolean,
     @ColumnInfo(name = "is_pinned")

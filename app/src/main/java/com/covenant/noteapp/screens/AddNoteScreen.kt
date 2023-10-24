@@ -33,6 +33,7 @@ import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.TransparentTextField
 import com.covenant.noteapp.data.NoteTable
 import com.covenant.noteapp.viewmodel.NoteViewModel
+import java.time.Instant
 import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +63,7 @@ fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
                             id = 0,
                             header = viewModel.header.text,
                             body = viewModel.body.text,
-                            dateCreated = LocalDateTime.now(),
+                            dateCreated = Instant.now(),
                             isDeleted = false,
                             isPinned = false,
                         )

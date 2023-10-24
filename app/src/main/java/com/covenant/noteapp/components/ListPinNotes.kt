@@ -46,7 +46,7 @@ fun ListPinNotes(
                 NoteCard(
                     header = item.header,
                     body = item.body,
-                    date = item.dateCreated.toLocalDate(),
+                    date = item.dateCreated.timeElapsedString(),
                     id = item.id,
                     onClick = { onClick(item.id) }
                 )

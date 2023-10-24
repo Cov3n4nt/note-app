@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.covenant.noteapp.ui.theme.NoteAppTheme
+import java.time.Instant
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +34,7 @@ import java.time.LocalDate
 fun NoteCard(
     header: String,
     body: String,
-    date: LocalDate,
+    date: String,
     onClick: () -> Unit,
     id: Int,
     modifier: Modifier = Modifier,
@@ -80,7 +81,7 @@ fun NoteCard(
 @Composable
 fun NoteCardPrev() {
     NoteAppTheme {
-        NoteCard(header = "Header", body = "Body", onClick = { /*TODO*/ }, date = LocalDate.now(),
+        NoteCard(header = "Header", body = "Body", onClick = { /**/ }, date = Instant.now().timeElapsedString(),
             id = 1
         )
     }
