@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -81,33 +82,38 @@ fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
             )
         )
 
-        TransparentTextField(
-            label = "Title",
-            textValue = viewModel.header.text,
-            onValueChange = {newHeader ->
-                viewModel.updateHeader(newHeader)
-            },
-            labelSize = 24.sp,
-            labelWeight = FontWeight.SemiBold,
-            labelFont = FontFamily.Monospace,
-            modifier = Modifier.fillMaxWidth()
+        LazyColumn(content = {
+            item {
+                TransparentTextField(
+                    label = "Title",
+                    textValue = viewModel.header.text,
+                    onValueChange = {newHeader ->
+                        viewModel.updateHeader(newHeader)
+                    },
+                    labelSize = 24.sp,
+                    labelWeight = FontWeight.SemiBold,
+                    labelFont = FontFamily.Monospace,
+                    modifier = Modifier.fillMaxWidth()
 
-        )
+                )
 
-        TransparentTextField(
-            label = "Note",
-            textValue = viewModel.body.text,
-            onValueChange = {newBody ->
-                viewModel.updateBody(newBody)
-            },
-            labelSize = 15.sp,
-            labelWeight = FontWeight.Normal,
-            labelFont = FontFamily.Monospace,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+                TransparentTextField(
+                    label = "Note",
+                    textValue = viewModel.body.text,
+                    onValueChange = {newBody ->
+                        viewModel.updateBody(newBody)
+                    },
+                    labelSize = 15.sp,
+                    labelWeight = FontWeight.Normal,
+                    labelFont = FontFamily.Monospace,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
 
-        )
+                )
+            }
+        })
+
 
     }
 }
