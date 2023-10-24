@@ -40,21 +40,15 @@ fun ListOtherNotes(
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding(8.dp),
                 )
-                LazyColumn(
-                    content = {
-                        items(notes) { item ->
-                            NoteCard(
-                                header = item.header,
-                                body = item.body,
-                                date = item.dateCreated.toLocalDate(),
-                                id = item.id,
-                                onClick = {onClick(item.id)}
-                            )
-                        }
-                    }
-                )
-
-
+                for(item in notes){
+                    NoteCard(
+                        header = item.header,
+                        body = item.body,
+                        date = item.dateCreated.toLocalDate(),
+                        id = item.id,
+                        onClick = {onClick(item.id)}
+                    )
+                }
             }
         }
     }

@@ -43,7 +43,7 @@ fun NoteCard(
         border = BorderStroke(0.5.dp, Color.Gray),
         onClick = onClick,
         modifier = Modifier
-            .width(LocalConfiguration.current.screenWidthDp.dp)
+            .fillMaxWidth()
             .wrapContentHeight()
             .padding(10.dp),
     ) {

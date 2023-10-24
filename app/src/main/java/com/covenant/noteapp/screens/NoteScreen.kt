@@ -84,50 +84,42 @@ fun NoteScreen(
         floatingActionButtonPosition = FabPosition.End,
     )
     { 14.dp
-        if(notes.value.isEmpty()){
-            LazyColumn(
-                modifier = Modifier
-                    .padding(it)
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                content = {
-                    item {
-                        Scrawlo(
-                            text = "Scrawlo couldn't find any notes here",
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .fillMaxSize(),
-                        )
-                    }
+        LazyColumn(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize(),
+            ){
+            item {
+                if(notes.value.isEmpty()){
+                    Scrawlo(
+                        text = "Scrawlo couldn't find any notes here",
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxSize(),
+                    )
                 }
-            )
-        }
-        else{
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(it),
-            ) {
-                ListPinNotes(
-                    notes = notes.value.filter { it.isPinned },
-                    onClick = {noteId ->
-                        navController.navigate("editNoteScreen/$noteId")
-                    },
-                    label = "Pinned Notes",
-                    labelSize = 15.sp,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth()
-                )
-                ListOtherNotes(
-                    notes = notes.value.filter { !it.isPinned },
-                    label = "Notes",
-                    labelSize = 15.sp,
-                    modifier = Modifier.padding(8.dp),
-                    onClick = {noteId ->
-                        navController.navigate("editNoteScreen/${noteId}")
-                    }
-                )
+                else{
+                    ListPinNotes(
+                        notes = notes.value.filter { it.isPinned },
+                        onClick = {noteId ->
+                            navController.navigate("editNoteScreen/$noteId")
+                        },
+                        label = "Pinned Notes",
+                        labelSize = 15.sp,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                    )
+                    ListOtherNotes(
+                        notes = notes.value.filter { !it.isPinned },
+                        label = "Notes",
+                        labelSize = 15.sp,
+                        modifier = Modifier.padding(8.dp),
+                        onClick = {noteId ->
+                            navController.navigate("editNoteScreen/${noteId}")
+                        }
+                    )
+                }
             }
         }
     }

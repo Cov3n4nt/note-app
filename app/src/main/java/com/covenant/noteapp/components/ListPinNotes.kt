@@ -50,20 +50,15 @@ fun ListPinNotes(
                         imageVector = Icons.Default.Pets,
                         contentDescription = "Pin notes")
                 }
-
-                LazyRow(
-                    content = {
-                        items(notes) { item ->
-                            NoteCard(
-                                header = item.header,
-                                body = item.body,
-                                date = item.dateCreated.toLocalDate(),
-                                id = item.id,
-                                onClick = {onClick(item.id)}
-                            )
-                        }
-                    }
-                )
+                for(item in notes){
+                    NoteCard(
+                        header = item.header,
+                        body = item.body,
+                        date = item.dateCreated.toLocalDate(),
+                        id = item.id,
+                        onClick = {onClick(item.id)}
+                    )
+                }
 
 
             }
