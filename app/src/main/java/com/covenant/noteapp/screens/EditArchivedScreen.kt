@@ -3,6 +3,7 @@ package com.covenant.noteapp.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -40,6 +41,7 @@ fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewMode
         var header by remember { mutableStateOf(TextFieldValue(note.header)) }
         var body by remember { mutableStateOf(TextFieldValue(note.body)) }
 
+
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -74,7 +76,8 @@ fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewMode
                                header.text,
                                body.text,
                                it.dateCreated,
-                               false
+                               false,
+                               it.isPinned
                            )
                        )
                         navController.popBackStack()
@@ -89,24 +92,32 @@ fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewMode
                     containerColor = Color.Transparent
                 )
             )
-
-            TransparentTextField(
-                label = "Title",
-                textValue = header.text,
-                onValueChange = { newHeader ->
-                    header = newHeader},
-                labelSize = 24.sp,
-                labelWeight = FontWeight.SemiBold,
-                labelFont = FontFamily.Monospace,
-            )
-            TransparentTextField(
-                label = "Note",
-                textValue = body.text,
-                onValueChange = { newHeader ->
-                    body = newHeader},
-                labelSize = 15.sp,
-                labelWeight = FontWeight.Normal,
-                labelFont = FontFamily.Monospace,
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                content = {
+                    item {
+                        TransparentTextField(
+                            label = "Title",
+                            textValue = header.text,
+                            onValueChange = { newHeader ->
+                                header = newHeader},
+                            labelSize = 24.sp,
+                            labelWeight = FontWeight.SemiBold,
+                            labelFont = FontFamily.Monospace,
+                        )
+                        TransparentTextField(
+                            label = "Note",
+                            textValue = body.text,
+                            onValueChange = { newHeader ->
+                                body = newHeader},
+                            labelSize = 15.sp,
+                            labelWeight = FontWeight.Normal,
+                            labelFont = FontFamily.Monospace,
+                        )
+                    }
+                }
             )
         }
     }

@@ -20,4 +20,6 @@ data class NoteTable(
     val dateCreated: LocalDateTime,
     @ColumnInfo(name = "is_deleted")
     val isDeleted: Boolean,
+    @ColumnInfo(name = "is_pinned")
+    val isPinned: Boolean,
 )

@@ -4,13 +4,19 @@ package com.covenant.noteapp.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.PushPin
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -36,14 +42,12 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
     val notes = viewModel.notes.collectAsState(initial = emptyList())
     val note = notes.value.find { it.id == noteId }
     note?.let {
+
         var header by remember { mutableStateOf(TextFieldValue(note.header)) }
         var body by remember { mutableStateOf(TextFieldValue(note.body)) }
 
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-        ) {
+
+        Column {
             TopAppBar(
                 title = { Text(text = "") },
                 navigationIcon = {
@@ -64,7 +68,8 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                                 header.text,
                                 body.text,
                                 it.dateCreated,
-                                true
+                                true,
+                                it.isPinned,
                             )
                         )
                         navController.popBackStack()
@@ -72,6 +77,28 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                         Icon(
                             imageVector = Icons.Filled.Delete,
                             contentDescription = "Delete Note"
+                        )
+                    }
+
+                    val isPinned = it.isPinned
+                    val icon = if (isPinned) Icons.Default.PushPin else Icons.Outlined.PushPin
+                    IconButton(
+                        onClick = {
+                            viewModel.updateNote(
+                                NoteTable(
+                                    it.id,
+                                    header.text,
+                                    body.text,
+                                    it.dateCreated,
+                                    isDeleted = false,
+                                    isPinned = !isPinned,
+                                )
+                            )
+                        }
+                    ) {
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = "Save Note"
                         )
                     }
                     IconButton(onClick = {
@@ -82,6 +109,7 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                                 body.text,
                                 it.dateCreated,
                                 isDeleted = false,
+                                it.isPinned,
                             )
                         )
                         navController.popBackStack()
@@ -91,29 +119,38 @@ fun EditNoteScreen(navController: NavHostController, viewModel: NoteViewModel, n
                             contentDescription = "Save Note"
                         )
                     }
+
                 },
                 colors = TopAppBarDefaults.smallTopAppBarColors(
                     containerColor = Color.Transparent
                 )
             )
-
-            TransparentTextField(
-                label = "Title",
-                textValue = header.text,
-                onValueChange = { newHeader ->
-                    header = newHeader},
-                labelSize = 24.sp,
-                labelWeight = FontWeight.SemiBold,
-                labelFont = FontFamily.Monospace,
-            )
-            TransparentTextField(
-                label = "Title",
-                textValue = body.text,
-                onValueChange = { newHeader ->
-                    body = newHeader},
-                labelSize = 15.sp,
-                labelWeight = FontWeight.Normal,
-                labelFont = FontFamily.Monospace,
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                content = {
+                    item {
+                        TransparentTextField(
+                            label = "Title",
+                            textValue = header.text,
+                            onValueChange = { newHeader ->
+                                header = newHeader},
+                            labelSize = 24.sp,
+                            labelWeight = FontWeight.SemiBold,
+                            labelFont = FontFamily.Monospace,
+                        )
+                        TransparentTextField(
+                            label = "Title",
+                            textValue = body.text,
+                            onValueChange = { newHeader ->
+                                body = newHeader},
+                            labelSize = 15.sp,
+                            labelWeight = FontWeight.Normal,
+                            labelFont = FontFamily.Monospace,
+                        )
+                    }
+                }
             )
         }
     }

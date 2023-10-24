@@ -32,4 +32,9 @@ interface NoteDAO {
 
     @Query("SELECT * FROM note_table WHERE is_deleted = 0 AND (header LIKE '%' ||:search|| '%' OR body LIKE '%' ||:search|| '%')")
     fun searchNotes(search: String): Flow<List<NoteTable>>
+
+    @Query("SELECT * FROM note_table WHERE is_deleted = 1 AND (header LIKE '%' ||:search|| '%' OR body LIKE '%' ||:search|| '%')")
+    fun searchArchivedNotes(search: String): Flow<List<NoteTable>>
+    @Query("SELECT * FROM note_table WHERE is_pinned = 1 AND is_deleted = 0")
+    fun pinNotes(): Flow<List<NoteTable>>
 }

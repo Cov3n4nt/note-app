@@ -27,7 +27,9 @@ import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.covenant.noteapp.components.ListOtherNotes
 import com.covenant.noteapp.components.NoteCard
 import com.covenant.noteapp.components.Scrawlo
 import com.covenant.noteapp.components.SearchTextField
@@ -36,9 +38,7 @@ import com.covenant.noteapp.viewmodel.NoteViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArchivedScreen(navController: NavHostController, viewModel: NoteViewModel) {
-    val archivedNotes = viewModel.archivedNotes.collectAsState(initial = emptyList())
-    var searchArchive by remember { mutableStateOf(TextFieldValue("")) }
-
+    val notes = viewModel.searchArchivedNotes(viewModel.search.text).collectAsState(initial = emptyList())
     Scaffold(
         topBar = {
 
@@ -48,13 +48,17 @@ fun ArchivedScreen(navController: NavHostController, viewModel: NoteViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 SearchTextField(
-                    search = searchArchive.text,
+                    search = viewModel.search.text,
                     onValueChange = { newSearch ->
-                        searchArchive = newSearch
+                        viewModel.updateSearch(newSearch)
                     },
 
                     )
-                IconButton(onClick = { navController.navigateUp() }) {
+                IconButton(onClick = {
+                    viewModel.clearContents()
+                    navController.navigateUp()
+                }
+                ) {
                     Icon(
                         imageVector = Icons.Outlined.Home,
                         contentDescription = "Archive",
@@ -65,7 +69,7 @@ fun ArchivedScreen(navController: NavHostController, viewModel: NoteViewModel) {
         },
 
     ) { innerPadding ->
-        if(archivedNotes.value.isEmpty()){
+        if(notes.value.isEmpty()){
             LazyColumn(
                 modifier = Modifier
                     .padding(innerPadding)
@@ -84,21 +88,15 @@ fun ArchivedScreen(navController: NavHostController, viewModel: NoteViewModel) {
             )
         }
         else{
-            LazyColumn(
-                modifier = Modifier.padding(innerPadding), // Apply padding from innerPadding
-                content = {
-                    items(archivedNotes.value) { item ->
-                        NoteCard(
-                            header = item.header,
-                            body = item.body,
-                            date = item.dateCreated.toLocalDate(),
-                            id = item.id,
-                            modifier = Modifier.padding(4.dp),
-                            onClick = { navController.navigate("editArchivedScreen/${item.id}") }
-                        )
-                    }
-                }
-            )
+            ListOtherNotes(
+                notes = notes.value,
+                modifier = Modifier.padding(innerPadding)
+                    .padding(8.dp),
+                label = "Archived Notes",
+                labelSize = 15.sp,
+                onClick = {noteId ->
+                    navController.navigate("editArchivedScreen/${noteId}")
+                })
         }
 
     }

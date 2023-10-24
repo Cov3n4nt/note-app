@@ -9,7 +9,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.covenant.noteapp.data.NoteDatabase
-import com.covenant.noteapp.data.NoteRepository
 import com.covenant.noteapp.ui.theme.NoteAppTheme
 import com.covenant.noteapp.viewmodel.NoteViewModel
 import com.covenant.noteapp.viewmodel.NoteViewModelFactory
@@ -19,7 +18,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val dao = NoteDatabase.getDatabase(application).noteDao()
-            val repository = NoteRepository(dao)
             val factory = NoteViewModelFactory(dao)
             val viewModel: NoteViewModel = viewModel(factory = factory)
             NoteAppTheme {

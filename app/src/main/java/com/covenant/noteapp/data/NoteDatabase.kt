@@ -11,7 +11,6 @@ import androidx.room.TypeConverters
 abstract class NoteDatabase: RoomDatabase() {
 
     abstract fun noteDao(): NoteDAO
-
     companion object{
         @Volatile
         private var INSTANCE: NoteDatabase? = null

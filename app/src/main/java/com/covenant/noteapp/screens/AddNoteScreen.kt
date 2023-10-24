@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,8 +37,7 @@ import java.time.LocalDateTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
-    var header by remember { mutableStateOf(TextFieldValue("")) }
-    var body by remember { mutableStateOf(TextFieldValue("")) }
+
     val context = LocalContext.current
     Column(
         modifier = Modifier
@@ -59,13 +59,15 @@ fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
                     viewModel.addNote(
                         NoteTable(
                             id = 0,
-                            header = header.text,
-                            body = body.text,
+                            header = viewModel.header.text,
+                            body = viewModel.body.text,
                             dateCreated = LocalDateTime.now(),
-                            isDeleted = false
+                            isDeleted = false,
+                            isPinned = false,
                         )
                     )
                     Toast.makeText(context, "Note saved!", Toast.LENGTH_LONG).show()
+                    viewModel.clearContents()
                     navController.navigateUp()
                 }) {
                     Icon(
@@ -81,9 +83,9 @@ fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
 
         TransparentTextField(
             label = "Title",
-            textValue = header.text,
+            textValue = viewModel.header.text,
             onValueChange = {newHeader ->
-                header = newHeader
+                viewModel.updateHeader(newHeader)
             },
             labelSize = 24.sp,
             labelWeight = FontWeight.SemiBold,
@@ -94,14 +96,15 @@ fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel) {
 
         TransparentTextField(
             label = "Note",
-            textValue = body.text,
+            textValue = viewModel.body.text,
             onValueChange = {newBody ->
-                body = newBody
+                viewModel.updateBody(newBody)
             },
             labelSize = 15.sp,
             labelWeight = FontWeight.Normal,
             labelFont = FontFamily.Monospace,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .fillMaxHeight()
 
         )
