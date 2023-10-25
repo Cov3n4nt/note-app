@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">noteApp</string>
+
+    <string name="just_now">Just Now</string>
+    <string name="lost_in_time">Lost in Time</string>
+    <string name="untouched">Untouched</string>
+
+    <plurals name="minutes">
+        <item quantity="one">%d minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+
+    <plurals name="hours">
+        <item quantity="one">%d hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+
+    <plurals name="days">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+
 </resources>

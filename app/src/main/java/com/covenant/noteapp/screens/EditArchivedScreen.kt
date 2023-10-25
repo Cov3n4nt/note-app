@@ -3,6 +3,7 @@ package com.covenant.noteapp.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -14,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,16 +28,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.covenant.noteapp.components.TransparentTextField
-import com.covenant.noteapp.viewModel.NoteViewModel
+import com.covenant.noteapp.data.NoteTable
+import com.covenant.noteapp.viewmodel.NoteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewModel, noteId: String) {
-    
-    val note = viewModel.getDeletedNotes().find { it.id == noteId }
+fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewModel, noteId: Int) {
+
+    val archivedNotes = viewModel.archivedNotes.collectAsState(initial = emptyList())
+    val note = archivedNotes.value.find { it.id == noteId }
     note?.let {
         var header by remember { mutableStateOf(TextFieldValue(note.header)) }
         var body by remember { mutableStateOf(TextFieldValue(note.body)) }
+
 
         Column(
             modifier = Modifier
@@ -56,7 +61,7 @@ fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewMode
                 },
                 actions = {
                     IconButton(onClick = {
-                        viewModel.removeNote(it)
+                        viewModel.deleteNote(it)
                         navController.popBackStack()
                     }) {
                         Icon(
@@ -66,11 +71,14 @@ fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewMode
                     }
                     IconButton(onClick = {
                        viewModel.updateNote(
-                           it,
-                           header.text,
-                           body.text,
-                           it.dateCreated,
-                           false
+                           NoteTable(
+                               it.id,
+                               header.text,
+                               body.text,
+                               it.dateCreated,
+                               false,
+                               it.isPinned
+                           )
                        )
                         navController.popBackStack()
                     }) {
@@ -84,24 +92,32 @@ fun EditArchivedScreen(navController: NavHostController, viewModel: NoteViewMode
                     containerColor = Color.Transparent
                 )
             )
-
-            TransparentTextField(
-                label = "Title",
-                textValue = header.text,
-                onValueChange = { newHeader ->
-                    header = newHeader},
-                labelSize = 24.sp,
-                labelWeight = FontWeight.SemiBold,
-                labelFont = FontFamily.Monospace,
-            )
-            TransparentTextField(
-                label = "Note",
-                textValue = body.text,
-                onValueChange = { newHeader ->
-                    body = newHeader},
-                labelSize = 15.sp,
-                labelWeight = FontWeight.Normal,
-                labelFont = FontFamily.Monospace,
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                content = {
+                    item {
+                        TransparentTextField(
+                            label = "Title",
+                            textValue = header.text,
+                            onValueChange = { newHeader ->
+                                header = newHeader},
+                            labelSize = 24.sp,
+                            labelWeight = FontWeight.SemiBold,
+                            labelFont = FontFamily.Monospace,
+                        )
+                        TransparentTextField(
+                            label = "Note",
+                            textValue = body.text,
+                            onValueChange = { newHeader ->
+                                body = newHeader},
+                            labelSize = 15.sp,
+                            labelWeight = FontWeight.Normal,
+                            labelFont = FontFamily.Monospace,
+                        )
+                    }
+                }
             )
         }
     }

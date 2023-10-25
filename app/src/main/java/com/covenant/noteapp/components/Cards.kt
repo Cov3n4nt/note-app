@@ -4,8 +4,11 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.covenant.noteapp.ui.theme.NoteAppTheme
+import java.time.Instant
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,9 +34,9 @@ import java.time.LocalDate
 fun NoteCard(
     header: String,
     body: String,
-    date: LocalDate,
+    date: String,
     onClick: () -> Unit,
-    id: String,
+    id: Int,
     modifier: Modifier = Modifier,
 ) {
     OutlinedCard( colors = CardDefaults
@@ -75,8 +81,8 @@ fun NoteCard(
 @Composable
 fun NoteCardPrev() {
     NoteAppTheme {
-        NoteCard(header = "Header", body = "Body", onClick = { /*TODO*/ }, date = LocalDate.now(),
-            id = "aaaa"
+        NoteCard(header = "Header", body = "Body", onClick = { /**/ }, date = Instant.now().timeElapsedString(),
+            id = 1
         )
     }
 }
